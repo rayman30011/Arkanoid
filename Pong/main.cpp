@@ -1,7 +1,7 @@
-#include <iostream>
+
+#include <SFML/Graphics.hpp>
 
 int main()
 {
-	std::cout << "Pong" << std::endl;
-	return 0;
+    return 0;
 }
