@@ -1,24 +1,24 @@
 #include <SFML/Graphics.hpp>
+#include "utils.hpp"
 #include <iostream>
-#include "Entity.h"
+#include <fstream>
+
+#include "Ball.hpp"
+#include "MapRenderer.h"
+
+#include "Game.h"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1024, 768), "Pong");
+    const int windowWidth = 1024;
+    const int windowHeight = 768;
+
+    sf::RenderWindow window(sf::VideoMode(1024, 768), "Arkanoid");
 
     sf::Event event;
-    sf::Image deck;
-    deck.loadFromFile("resources/deck.png");
-    sf::Texture texture;
-    texture.loadFromImage(deck);
-    texture.setSmooth(false);
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
-
-    Entity entity;
-    
-    entity.setSprite(sprite);
-    entity.setPosition({ 50, 100 });
+    sf::Clock clock;
+    Game game({ windowWidth, windowHeight });
+    game.init();
 
     while (window.isOpen())
     {
@@ -26,14 +26,15 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-
-
-            window.clear(sf::Color::Blue);
-
-            entity.render(window);
-
-            window.display();
         }
+        
+        float time = clock.restart().asSeconds();
+
+        game.update(time);
+
+        window.clear(sf::Color(17, 54, 48));
+        game.render(window);
+        window.display();
     }
 
     return 0;
