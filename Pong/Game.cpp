@@ -34,7 +34,7 @@ void Game::update(float time) {
     if (next_x <= 0 || next_x >= _windowSize.x)
         dir.x = -dir.x;
 
-    auto rect = sf::IntRect(sf::Vector2i(position.x, position.y), sf::Vector2i(5, 5));
+    auto rect = _ball->getBoundRect();
     rect.left = next_x;
     if (_currentMap->is_collide_block(rect))
     {
@@ -50,8 +50,8 @@ void Game::update(float time) {
         _currentMap->collide_block(rect);
     }
 
-    /*if (_player->getBoundRect().intersects(rect))
-        dir.y = -dir.y;*/
+    if (_player->getBoundRect().intersects(_ball->getBoundRect()))
+        dir.y = -dir.y;
 
     _ball->set_direction(dir);
     _ball->update(time);
@@ -74,7 +74,7 @@ void Game::restart()
     _player->setPosition(deckPosition);
 
 	_ball->set_position(deckPosition + sf::Vector2f(0, 10));
-	auto direction = sf::Vector2f(1, 1);
+	auto direction = sf::Vector2f(1, -1);
 	normilize(direction);
 	_ball->set_direction(direction);
 

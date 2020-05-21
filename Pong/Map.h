@@ -13,7 +13,7 @@ enum class BlockType {
 struct Block {
 	BlockType type;
 	uint8_t lives;
-	sf::IntRect rect;
+	sf::FloatRect rect;
 };
 
 constexpr uint32_t MAP_WIDTH = 15;
@@ -29,8 +29,8 @@ public:
 	~Map();
 
 	std::vector<Block*>& const get_blocks();
-	bool is_collide_block(sf::IntRect rect);
-	void collide_block(sf::IntRect rect);
+	bool is_collide_block(sf::FloatRect rect);
+	void collide_block(sf::FloatRect rect);
 private:
 	Block* create_block(BlockType type);
 	int get_index(sf::Vector2u position);

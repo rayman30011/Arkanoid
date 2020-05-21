@@ -12,6 +12,9 @@ Player::Player(const std::string& fileName)
 	_texture->loadFromImage(*_image);
 	_sprite->setTexture(*_texture);
 	_sprite->scale(2.f, 2.f);
+
+	_boundRect.width = _image->getSize().x * 2.f;
+	_boundRect.height = _image->getSize().y * 2.f;
 }
 
 void Player::update(float deltaTime)

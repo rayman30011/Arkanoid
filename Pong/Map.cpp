@@ -8,6 +8,7 @@ Map::Map(std::string const& file_name)
 	{
 		std::string line;
 		int y = 0;
+		int xOffset = (1024 - (MAP_WIDTH * BLOCK_WIDTH)) / 2;
 		while (getline(file, line)) 
 		{
 			for (int i = 0; i < MAP_WIDTH; i++)
@@ -20,7 +21,7 @@ Map::Map(std::string const& file_name)
 
 				auto block = create_block(type);
 				block->rect.top = y * BLOCK_HEIDHT;
-				block->rect.left = i * BLOCK_WIDTH;
+				block->rect.left = i * BLOCK_WIDTH + xOffset;
 
 				_blocks.push_back(block);
 			}
@@ -39,7 +40,7 @@ std::vector<Block*>& const Map::get_blocks()
 	return _blocks;
 }
 
-bool Map::is_collide_block(sf::IntRect rect)
+bool Map::is_collide_block(sf::FloatRect rect)
 {
 	for (auto block : _blocks) {
 		if (block->rect.intersects(rect))
@@ -49,7 +50,7 @@ bool Map::is_collide_block(sf::IntRect rect)
 	return false;
 }
 
-void Map::collide_block(sf::IntRect rect)
+void Map::collide_block(sf::FloatRect rect)
 {
 	for (auto it = _blocks.begin(); it != _blocks.end(); it++)
 	{

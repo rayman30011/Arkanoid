@@ -15,12 +15,17 @@ public:
 		_sprite.scale(2.f, 2.f);
 
 		auto size = _texture->getSize();
-		_sprite.setOrigin(size.x / 2, size.y / 2);
+		_boundRect.height = size.y * 2.f;
+		_boundRect.width = size.x * 2.f;
+
 		_speed = 250;
 	}
 
 	void update(float delta_time) {
 		_sprite.move(_direction * _speed * delta_time);
+		auto position = _sprite.getPosition();
+		_boundRect.left = position.x;
+		_boundRect.top = position.y;
 	}
 
 	void draw(sf::RenderTarget& const target) const {
@@ -29,6 +34,8 @@ public:
 
 	void set_position(sf::Vector2f const& position) {
 		_sprite.setPosition(position);
+		_boundRect.left = position.x;
+		_boundRect.top = position.y;
 	}
 
 	const sf::Vector2f& get_position() { return _sprite.getPosition(); }
@@ -38,6 +45,8 @@ public:
 	
 	sf::Vector2f get_direction() { return _direction; }
 	void set_direction(sf::Vector2f value) { _direction = value; }
+
+	sf::FloatRect getBoundRect() { return _boundRect; }
 
 	~Ball() {
 		delete _img;
@@ -50,6 +59,7 @@ private:
 	sf::Sprite _sprite;
 	sf::Image* _img;
 	sf::Texture* _texture;
+	sf::FloatRect _boundRect;
 
 	sf::Vector2f _direction;
 };
