@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <functional>
 #include <SFML/Graphics.hpp>
 
 enum class BlockType {
@@ -15,6 +16,8 @@ struct Block {
 	uint8_t lives;
 	sf::FloatRect rect;
 };
+
+typedef std::function<void()> action;
 
 constexpr uint32_t MAP_WIDTH = 15;
 constexpr uint32_t MAP_HEIDHT = 12;
@@ -31,6 +34,7 @@ public:
 	std::vector<Block*>& const get_blocks();
 	bool is_collide_block(sf::FloatRect rect);
 	void collide_block(sf::FloatRect rect);
+	void onBlockDestroy(action fn) { _blockDestroyCallbacks.push_back(fn); }
 private:
 	Block* create_block(BlockType type);
 	int get_index(sf::Vector2u position);
@@ -38,5 +42,6 @@ private:
 
 private:
 	std::vector<Block*> _blocks;
+	std::vector<action> _blockDestroyCallbacks;
 };
 

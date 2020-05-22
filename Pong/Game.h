@@ -32,6 +32,11 @@ private:
 	std::unique_ptr<Ball> _ball;
 	std::unique_ptr<Player> _player;
 
+	sf::Text _scoreText;
+	sf::Font* _font;
+
+	uint32_t _score;
+
 	bool _isBallFollow;
 };
 

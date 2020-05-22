@@ -52,7 +52,7 @@ bool Map::is_collide_block(sf::FloatRect rect)
 
 void Map::collide_block(sf::FloatRect rect)
 {
-	for (auto it = _blocks.begin(); it != _blocks.end(); it++)
+	for (auto it = _blocks.begin(); it != _blocks.end();)
 	{
 		auto block = *it;
 		if (block->rect.intersects(rect)) 
@@ -62,8 +62,13 @@ void Map::collide_block(sf::FloatRect rect)
 			{
 				it = _blocks.erase(it);
 				delete block;
+				for (auto fn : _blockDestroyCallbacks) {
+					fn();
+				}
+				continue;
 			}
 		}
+		it++;
 	}
 }
 

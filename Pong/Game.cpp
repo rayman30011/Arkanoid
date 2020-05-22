@@ -1,10 +1,13 @@
 #include "Game.h"
-
 #include "utils.hpp"
+
+#include <iostream>
 
 Game::Game(sf::Vector2u windowSize)
 {
 	_windowSize = windowSize;
+    _score = 0;
+    _font = new sf::Font();
 }
 
 void Game::init()
@@ -14,6 +17,24 @@ void Game::init()
 
 	_currentMap = new Map("resources/levels/1.txt");
 	_mapRenderer = new MapRenderer(_currentMap);
+
+    _font->loadFromFile("resources/fonts/nullp.ttf");
+    sf::Texture& texture = const_cast<sf::Texture&>(_font->getTexture(24));
+    texture.setSmooth(false);
+    
+    _scoreText.setFont(*_font);
+    _scoreText.setString("Score: " + std::to_string(_score));
+    _scoreText.setCharacterSize(24);
+    
+    //_scoreText.setOutlineThickness(2.f);
+    //_scoreText.setOutlineColor(sf::Color::Black);
+    _scoreText.setPosition({ 10, 10 });
+    _scoreText.setFillColor(sf::Color::White);
+
+    _currentMap->onBlockDestroy([this]() -> void {
+        _score += 100;
+        _scoreText.setString("Score: " + std::to_string(_score));
+    });
 
 	restart();
 }
@@ -63,6 +84,8 @@ void Game::render(sf::RenderTarget& target)
 	_ball->draw(target);
 	_mapRenderer->render(target);
     _player->render(target);
+
+    target.draw(_scoreText);
 }
 
 void Game::restart()
