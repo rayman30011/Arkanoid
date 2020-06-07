@@ -8,7 +8,7 @@ Map::Map(std::string const& file_name)
 	{
 		std::string line;
 		int y = 0;
-		int xOffset = (1024 - (MAP_WIDTH * BLOCK_WIDTH)) / 2;
+		int xOffset = (600 - (MAP_WIDTH * BLOCK_WIDTH)) / 2;
 		while (getline(file, line)) 
 		{
 			for (int i = 0; i < MAP_WIDTH; i++)
@@ -20,7 +20,7 @@ Map::Map(std::string const& file_name)
 					continue;
 
 				auto block = create_block(type);
-				block->rect.top = y * BLOCK_HEIDHT;
+				block->rect.top = y * BLOCK_HEIDHT + 50;
 				block->rect.left = i * BLOCK_WIDTH + xOffset;
 
 				_blocks.push_back(block);

@@ -20,11 +20,11 @@ Player::Player(const std::string& fileName)
 void Player::update(float deltaTime)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		move({ -150 * deltaTime, 0 });
+		move({ -200 * deltaTime, 0 });
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		move({ 150 * deltaTime, 0 });
+		move({ 200 * deltaTime, 0 });
 	}
 }
 

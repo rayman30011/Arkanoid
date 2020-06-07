@@ -10,10 +10,10 @@
 
 int main()
 {
-    const int windowWidth = 1024;
-    const int windowHeight = 768;
+    const int windowWidth = 600;
+    const int windowHeight = 568;
 
-    sf::RenderWindow window(sf::VideoMode(1024, 768), "Arkanoid");
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Arkanoid");
 
     sf::Event event;
     sf::Clock clock;

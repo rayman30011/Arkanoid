@@ -18,7 +18,7 @@ public:
 		_boundRect.height = size.y * 2.f;
 		_boundRect.width = size.x * 2.f;
 
-		_speed = 250;
+		_speed = 300;
 	}
 
 	void update(float delta_time) {

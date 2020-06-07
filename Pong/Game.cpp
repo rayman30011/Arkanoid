@@ -26,10 +26,8 @@ void Game::init()
     _scoreText.setString("Score: " + std::to_string(_score));
     _scoreText.setCharacterSize(24);
     
-    //_scoreText.setOutlineThickness(2.f);
-    //_scoreText.setOutlineColor(sf::Color::Black);
     _scoreText.setPosition({ 10, 10 });
-    _scoreText.setFillColor(sf::Color::White);
+    _scoreText.setFillColor(sf::Color::Green);
 
     _currentMap->onBlockDestroy([this]() -> void {
         _score += 100;
@@ -45,9 +43,11 @@ void Game::update(float time) {
 	}
 
     auto position = _ball->get_position();
+    auto speed = _ball->get_speed();
     auto dir = _ball->get_direction();
-    float next_y = position.y + dir.y;
-    float next_x = position.x + dir.x;
+    
+    float next_y = position.y + dir.y * time * speed;
+    float next_x = position.x + dir.x * time * speed;
 
     if (next_y <= 0 || next_y >= _windowSize.y)
         dir.y = -dir.y;
@@ -96,7 +96,7 @@ void Game::restart()
 	auto deckPosition = sf::Vector2f(_windowSize.x / 2 - deckSize.width / 2, _windowSize.y - 50);
     _player->setPosition(deckPosition);
 
-	_ball->set_position(deckPosition + sf::Vector2f(0, 10));
+	_ball->set_position(deckPosition + sf::Vector2f(0, 15));
 	auto direction = sf::Vector2f(1, -1);
 	normilize(direction);
 	_ball->set_direction(direction);
