@@ -5,6 +5,7 @@
 #include "Ball.hpp"
 #include "Player.h"
 #include "MapRenderer.h"
+#include "Bonus.h"
 
 class Game
 {
@@ -23,14 +24,18 @@ public:
 
 	void restart();
 private:
+	//void updateTimers(float time);
+private:
 	State _currentState;
 	Map* _currentMap;
 	MapRenderer* _mapRenderer;
 
 	std::string _fileName;
 	sf::Vector2u _windowSize;
-	std::unique_ptr<Ball> _ball;
-	std::unique_ptr<Player> _player;
+	std::shared_ptr<Ball> _ball;
+	std::shared_ptr<Player> _player;
+	std::vector<Bonus*> _bonuses;
+	std::vector<std::shared_ptr<Entity>> _entities;
 
 	sf::Text _scoreText;
 	sf::Font* _font;

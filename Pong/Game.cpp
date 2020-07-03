@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "utils.hpp"
+#include "Time.h"
 
 #include <iostream>
 
@@ -12,8 +13,10 @@ Game::Game(sf::Vector2u windowSize)
 
 void Game::init()
 {
-	_ball = std::make_unique<Ball>("resources/ball.png");
-	_player = std::make_unique<Player>("resources/deck.png");
+	_ball = std::make_shared<Ball>("resources/ball.png");
+	_player = std::make_shared<Player>("resources/deck.png");
+    _entities.push_back(_player);
+    _entities.push_back(_ball);
 
 	_currentMap = new Map("resources/levels/1.txt");
 	_mapRenderer = new MapRenderer(_currentMap);
@@ -45,6 +48,10 @@ void Game::update(float time) {
     auto position = _ball->get_position();
     auto speed = _ball->get_speed();
     auto dir = _ball->get_direction();
+
+    for (auto bonus : _bonuses) {
+        bonus->update(time);
+    }
     
     float next_y = position.y + dir.y * time * speed;
     float next_x = position.x + dir.x * time * speed;
@@ -75,15 +82,24 @@ void Game::update(float time) {
         dir.y = -dir.y;
 
     _ball->set_direction(dir);
-    _ball->update(time);
-    _player->update(time);
+
+    for (auto entity : _entities) {
+        entity->update(time);
+    }
 }
 
 void Game::render(sf::RenderTarget& target)
 {
-	_ball->draw(target);
-	_mapRenderer->render(target);
-    _player->render(target);
+    _mapRenderer->render(target);
+	_ball->render(target);
+
+    for (auto bonus : _bonuses) {
+        bonus->draw(target);
+    }
+
+    for (auto entity : _entities) {
+        entity->render(target);
+    }
 
     target.draw(_scoreText);
 }

@@ -1,11 +1,7 @@
 #include "Player.h"
 
-Player::Player(const std::string& fileName)
+Player::Player(const std::string& fileName) : Entity()
 {
-	_image = std::make_unique<sf::Image>();
-	_texture = std::make_unique<sf::Texture>();
-	_sprite = std::make_unique<sf::Sprite>();
-
 	_image->loadFromFile(fileName);
 	_image->createMaskFromColor(sf::Color::Green);
 	
