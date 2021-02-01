@@ -13,48 +13,58 @@ Game::Game(sf::Vector2u windowSize)
 
 void Game::init()
 {
-	_ball = std::make_shared<Ball>("resources/ball.png");
-	_player = std::make_shared<Player>("resources/deck.png");
+	_ball = new Ball("resources/ball.png");
+	_player = new Player("resources/deck.png");
     _entities.push_back(_player);
     _entities.push_back(_ball);
 
 	_currentMap = new Map("resources/levels/1.txt");
 	_mapRenderer = new MapRenderer(_currentMap);
 
-    _font->loadFromFile("resources/fonts/nullp.ttf");
+    _font->loadFromFile("resources/fonts/PressStart.ttf");
     sf::Texture& texture = const_cast<sf::Texture&>(_font->getTexture(24));
     texture.setSmooth(false);
     
     _scoreText.setFont(*_font);
-    _scoreText.setString("Score: " + std::to_string(_score));
-    _scoreText.setCharacterSize(24);
+    _scoreText.setString("Score " + std::to_string(_score));
+    _scoreText.setCharacterSize(18);
     
     _scoreText.setPosition({ 10, 10 });
-    _scoreText.setFillColor(sf::Color::Green);
+    _scoreText.setFillColor(sf::Color::White);
 
-    _currentMap->onBlockDestroy([this]() -> void {
+    _currentMap->onBlockDestroy([this](BlockActionParams params) -> void
+    {
         _score += 100;
-        _scoreText.setString("Score: " + std::to_string(_score));
+        _scoreText.setString("Score " + std::to_string(_score));
+    });
+
+    _currentMap->onBlockDestroy([this](BlockActionParams params) -> void
+    {
+        int i = rand() % 5;
+    	if (i <= 1)
+    	{
+            std::cout << "Bonus X:" << params.position.x << "\tY: " << params.position.y << std::endl;            auto bonus = new Bonus(Bonus::Type::Double);
+            bonus->setPosition(params.position);
+            _entities.push_back(bonus);
+    	}
     });
 
 	restart();
 }
 
-void Game::update(float time) {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && _isBallFollow) {
+void Game::update(float time)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && _isBallFollow) 
+    {
 		_isBallFollow = false;
 	}
 
-    auto position = _ball->get_position();
-    auto speed = _ball->get_speed();
+    const auto position = _ball->get_position();
+    const auto speed = _ball->get_speed();
     auto dir = _ball->get_direction();
-
-    for (auto bonus : _bonuses) {
-        bonus->update(time);
-    }
     
-    float next_y = position.y + dir.y * time * speed;
-    float next_x = position.x + dir.x * time * speed;
+    const float next_y = position.y + dir.y * time * speed;
+    const float next_x = position.x + dir.x * time * speed;
 
     if (next_y <= 0 || next_y >= _windowSize.y)
         dir.y = -dir.y;
@@ -83,7 +93,7 @@ void Game::update(float time) {
 
     _ball->set_direction(dir);
 
-    for (auto entity : _entities) {
+    for (auto& entity : _entities) {
         entity->update(time);
     }
 }
@@ -93,11 +103,7 @@ void Game::render(sf::RenderTarget& target)
     _mapRenderer->render(target);
 	_ball->render(target);
 
-    for (auto bonus : _bonuses) {
-        bonus->draw(target);
-    }
-
-    for (auto entity : _entities) {
+    for (auto& entity : _entities) {
         entity->render(target);
     }
 

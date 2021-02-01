@@ -1,10 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include "utils.hpp"
-#include <iostream>
-#include <fstream>
-
-#include "Ball.hpp"
-#include "MapRenderer.h"
 
 #include "Game.h"
 

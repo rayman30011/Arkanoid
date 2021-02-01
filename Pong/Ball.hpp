@@ -19,7 +19,7 @@ public:
 		_speed = 250;
 	}
 
-	void start() override {};
+	void start() override {}
 
 	void update(float delta_time) override {
 		_sprite->move(_direction * _speed * delta_time);

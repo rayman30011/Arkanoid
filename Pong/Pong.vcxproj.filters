@@ -11,18 +11,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapRenderer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="utils.cpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClCompile>
     <ClCompile Include="Bonus.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="utils.cpp" />
     <ClCompile Include="Entity.cpp" />
   </ItemGroup>
   <ItemGroup>

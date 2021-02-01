@@ -1,8 +1,10 @@
 #pragma once
-#include <memory>
+#include "memory"
 #include <SFML/Graphics.hpp>
 
-class Bonus
+#include "Entity.h"
+
+class Bonus : public Entity
 {
 public:
 	enum class Type 
@@ -17,14 +19,11 @@ public:
 
 	Bonus(Type type);
 
-	void start();
-	void update(float dt);
-	void draw(sf::RenderTarget& target);
+	void start() override;
+	void update(float dt) override;
+	void render(sf::RenderTarget& target) override;
 
 private:
-	std::unique_ptr<sf::Image> _image;
-	std::unique_ptr<sf::Texture> _texture;
-	std::unique_ptr<sf::Sprite> _sprite;
 
 	Type _type;
 };

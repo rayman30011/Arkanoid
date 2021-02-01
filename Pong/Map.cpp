@@ -8,7 +8,7 @@ Map::Map(std::string const& file_name)
 	{
 		std::string line;
 		int y = 0;
-		int xOffset = (600 - (MAP_WIDTH * BLOCK_WIDTH)) / 2;
+		const int xOffset = (600 - (MAP_WIDTH * BLOCK_WIDTH)) / 2;
 		while (getline(file, line)) 
 		{
 			for (int i = 0; i < MAP_WIDTH; i++)
@@ -20,8 +20,8 @@ Map::Map(std::string const& file_name)
 					continue;
 
 				auto block = create_block(type);
-				block->rect.top = y * BLOCK_HEIDHT + 50;
-				block->rect.left = i * BLOCK_WIDTH + xOffset;
+				block.rect.top = y * BLOCK_HEIGHT + 50;
+				block.rect.left = i * BLOCK_WIDTH + xOffset;
 
 				_blocks.push_back(block);
 			}
@@ -35,15 +35,15 @@ Map::~Map()
 {
 }
 
-std::vector<Block*>& const Map::get_blocks()
+std::vector<Block>& const Map::get_blocks()
 {
 	return _blocks;
 }
 
 bool Map::is_collide_block(sf::FloatRect rect)
 {
-	for (auto block : _blocks) {
-		if (block->rect.intersects(rect))
+	for (auto& block : _blocks) {
+		if (block.rect.intersects(rect))
 			return true;
 	}
 
@@ -54,21 +54,22 @@ void Map::collide_block(sf::FloatRect rect)
 {
 	for (auto it = _blocks.begin(); it != _blocks.end();)
 	{
-		auto block = *it;
-		if (block->rect.intersects(rect)) 
+		Block& block = *it;
+		if (block.rect.intersects(rect)) 
 		{
-			block->lives--;
-			if (block->lives < 1)
+			block.lives--;
+			if (block.lives < 1)
 			{
 				it = _blocks.erase(it);
-				delete block;
-				for (auto fn : _blockDestroyCallbacks) {
-					fn();
+				for (auto& callback : _blockDestroyCallbacks)
+				{
+					const BlockActionParams params = { block.type, sf::Vector2f(block.rect.left, block.rect.top) };
+					callback(params);
 				}
 				continue;
 			}
 		}
-		it++;
+		++it;
 	}
 }
 
@@ -80,27 +81,26 @@ int Map::get_index(sf::Vector2u position) {
 	return MAP_WIDTH * position.y + position.x;
 }
 
-Block* Map::create_block(BlockType type)
+Block Map::create_block(BlockType type)
 {
-	auto block = new Block();
-	block->type = type;
-	block->rect.height = BLOCK_HEIDHT;
-	block->rect.width = BLOCK_WIDTH;
+	Block block;
+	block.type = type;
+	block.rect.height = BLOCK_HEIGHT;
+	block.rect.width = BLOCK_WIDTH;
+	block.lives = 1;
 
 	switch (type)
 	{
 	case BlockType::None:
 		break;
 	case BlockType::Simple:
-		block->lives = 1;
+		block.lives = 1;
 		break;
 	case BlockType::OneLive:
-		block->lives = 2;
+		block.lives = 2;
 		break;
 	case BlockType::Immortal:
-		block->lives = 0 - 1;
-		break;
-	default:
+		block.lives = UCHAR_MAX;
 		break;
 	}
 

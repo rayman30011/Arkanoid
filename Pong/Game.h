@@ -32,10 +32,9 @@ private:
 
 	std::string _fileName;
 	sf::Vector2u _windowSize;
-	std::shared_ptr<Ball> _ball;
-	std::shared_ptr<Player> _player;
-	std::vector<Bonus*> _bonuses;
-	std::vector<std::shared_ptr<Entity>> _entities;
+	Ball* _ball;
+	Player* _player;
+	std::vector<Entity*> _entities;
 
 	sf::Text _scoreText;
 	sf::Font* _font;

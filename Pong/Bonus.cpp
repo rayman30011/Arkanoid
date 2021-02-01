@@ -1,5 +1,7 @@
 #include "Bonus.h"
 
+#include <SFML/Graphics.hpp>
+
 Bonus::Bonus(Type type) : _type(type)
 {
 	_image = std::make_unique<sf::Image>();
@@ -11,18 +13,17 @@ Bonus::Bonus(Type type) : _type(type)
 	_sprite = std::make_unique<sf::Sprite>();
 	_sprite->setTexture(*_texture);
 	_sprite->scale(2.f, 2.f);
-
-	_sprite->setPosition({ 100, 100 });
+	_sprite->setOrigin(8, 8);
+	_sprite->setTextureRect(sf::IntRect(static_cast<int>(_type) * 16, 0, 16, 16));
 }
 
 void Bonus::start()
 {
-	int offsetX = static_cast<int>(_type);
-	_sprite->setTextureRect(sf::IntRect(offsetX * 16, 0, 16, 16));
 }
 
-void Bonus::draw(sf::RenderTarget& target)
+void Bonus::render(sf::RenderTarget& target)
 {
+	auto pos = _sprite->getPosition();
 	target.draw(*_sprite);
 }
 
