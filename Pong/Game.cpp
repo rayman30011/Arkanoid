@@ -40,10 +40,11 @@ void Game::init()
 
     _currentMap->onBlockDestroy([this](BlockActionParams params) -> void
     {
-        int i = rand() % 5;
-    	if (i <= 1)
+        int i = rand() % 20;
+    	if (i <= 2)
     	{
-            std::cout << "Bonus X:" << params.position.x << "\tY: " << params.position.y << std::endl;            auto bonus = new Bonus(Bonus::Type::Double);
+    		std::cout << "Bonus X:" << params.position.x << "\tY: " << params.position.y << std::endl;
+    		Bonus* bonus = new Bonus(Bonus::Type::Double);
             bonus->setPosition(params.position);
             _entities.push_back(bonus);
     	}
@@ -61,22 +62,22 @@ void Game::update(float time)
 
     const auto position = _ball->get_position();
     const auto speed = _ball->get_speed();
-    auto dir = _ball->get_direction();
+    auto direction = _ball->get_direction();
     
-    const float next_y = position.y + dir.y * time * speed;
-    const float next_x = position.x + dir.x * time * speed;
+    const float next_y = position.y + direction.y * time * speed;
+    const float next_x = position.x + direction.x * time * speed;
 
     if (next_y <= 0 || next_y >= _windowSize.y)
-        dir.y = -dir.y;
+        direction.y = -direction.y;
 
     if (next_x <= 0 || next_x >= _windowSize.x)
-        dir.x = -dir.x;
+        direction.x = -direction.x;
 
     auto rect = _ball->getBoundRect();
     rect.left = next_x;
     if (_currentMap->is_collide_block(rect))
     {
-        dir.x = -dir.x;
+        direction.x = -direction.x;
         _currentMap->collide_block(rect);
         rect.left = position.x;
     }
@@ -84,16 +85,25 @@ void Game::update(float time)
     rect.top = next_y;
     if (_currentMap->is_collide_block(rect))
     {
-        dir.y = -dir.y;
+        direction.y = -direction.y;
         _currentMap->collide_block(rect);
     }
 
-    if (_player->getBoundRect().intersects(_ball->getBoundRect()))
-        dir.y = -dir.y;
+    if (_player->getBoundRect().intersects(rect))
+    {
+        direction.y = -direction.y;
+        const auto playerRect = _player->getBoundRect();
+        auto tmp = rect;
+        const auto left = playerRect.left;
+        tmp.left -= left;
+        direction.x = tmp.left / playerRect.width * 2 - 1;
+    }
 
-    _ball->set_direction(dir);
+    normilize(direction);
+    _ball->set_direction(direction);
 
-    for (auto& entity : _entities) {
+    for (Entity* entity : _entities) 
+    {
         entity->update(time);
     }
 }
@@ -114,11 +124,11 @@ void Game::restart()
 {
 	_isBallFollow = true;
 	
-	auto deckSize = _player->getBoundRect();
-	auto deckPosition = sf::Vector2f(_windowSize.x / 2 - deckSize.width / 2, _windowSize.y - 50);
+	const auto deckSize = _player->getBoundRect();
+	const auto deckPosition = sf::Vector2f(_windowSize.x / 2 - deckSize.width / 2, _windowSize.y - 50);
     _player->setPosition(deckPosition);
 
-	_ball->set_position(deckPosition + sf::Vector2f(0, 15));
+	_ball->set_position(deckPosition + sf::Vector2f(0, -15));
 	auto direction = sf::Vector2f(1, -1);
 	normilize(direction);
 	_ball->set_direction(direction);
