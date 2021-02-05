@@ -10,11 +10,10 @@ public:
 		_texture->loadFromImage(*_image);
 
 		_sprite->setTexture(*_texture);
-		_sprite->scale(2.f, 2.f);
 
 		auto size = _texture->getSize();
-		_boundRect.height = size.y * 2.f;
-		_boundRect.width = size.x * 2.f;
+		_boundRect.height = size.y;
+		_boundRect.width = size.x;
 
 		_speed = 250;
 	}

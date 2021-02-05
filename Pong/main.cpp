@@ -7,8 +7,8 @@
 int main()
 {
     srand(time(0));
-    const int windowWidth = 600;
-    const int windowHeight = 568;
+    const int windowWidth = 1600;
+    const int windowHeight = 900;
 
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Arkanoid");
 
@@ -16,6 +16,11 @@ int main()
     sf::Clock clock;
     Game game({ windowWidth, windowHeight });
     game.init();
+
+    sf::View view(sf::FloatRect(0.f, 0.f, windowWidth, windowHeight));
+    view.setCenter(windowWidth / 2.f, windowHeight / 2.f);
+    view.zoom(0.5f);
+    window.setView(view);
 
     while (window.isOpen())
     {
@@ -29,7 +34,7 @@ int main()
 
         game.update(time);
 
-        window.clear(sf::Color(17, 54, 48));
+        window.clear();
         game.render(window);
         window.display();
     }

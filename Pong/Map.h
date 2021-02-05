@@ -26,10 +26,10 @@ struct Block {
 
 typedef std::function<void(BlockActionParams)> action;
 
-constexpr uint32_t MAP_WIDTH = 15;
-constexpr uint32_t MAP_HEIDHT = 12;
+constexpr uint32_t MAP_WIDTH = 16;
+constexpr uint32_t MAP_HEIDHT = 24;
 
-constexpr uint32_t BLOCK_WIDTH = 32;
+constexpr uint32_t BLOCK_WIDTH = 16;
 constexpr uint32_t BLOCK_HEIGHT = 16;
 
 class Map
@@ -38,14 +38,14 @@ public:
 	Map(std::string const& file_name);
 	~Map();
 
-	std::vector<Block>& const get_blocks();
+	std::vector<Block>& getBlocks();
 	bool is_collide_block(sf::FloatRect rect);
 	void collide_block(sf::FloatRect rect);
 	void onBlockDestroy(action fn) { _blockDestroyCallbacks.push_back(fn); }
 private:
-	Block create_block(BlockType type);
-	int get_index(sf::Vector2u position);
-	bool out_bounds(sf::Vector2f position);
+	Block createBlock(BlockType type);
+	int getIndex(sf::Vector2u position);
+	bool outBounds(sf::Vector2f position);
 
 private:
 	std::vector<Block> _blocks;

@@ -25,6 +25,7 @@ protected:
 	std::unique_ptr<sf::Sprite> _sprite;
 	std::unique_ptr<sf::Image> _image;
 	std::unique_ptr<sf::Texture> _texture;
+	sf::FloatRect _boundRect;
 
 	bool _isDestroyed;
 };

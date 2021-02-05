@@ -12,7 +12,6 @@ Bonus::Bonus(Type type) : _type(type)
 
 	_sprite = std::make_unique<sf::Sprite>();
 	_sprite->setTexture(*_texture);
-	_sprite->scale(2.f, 2.f);
 	_sprite->setOrigin(8, 8);
 	_sprite->setTextureRect(sf::IntRect(static_cast<int>(_type) * 16, 0, 16, 16));
 }

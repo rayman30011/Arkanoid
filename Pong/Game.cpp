@@ -19,6 +19,27 @@ void Game::init()
     _entities.push_back(_ball);
 
 	_currentMap = new Map("resources/levels/1.txt");
+
+    const auto mapHeightInPixels = MAP_HEIDHT * BLOCK_WIDTH;
+    const auto mapWidthInPixels = MAP_WIDTH * BLOCK_WIDTH;
+    const auto yOffset = (_windowSize.y - mapHeightInPixels) / 2;
+    const auto xOffset = (_windowSize.x - mapWidthInPixels) / 2;
+
+    _mapRect.left = xOffset;
+    _mapRect.width = mapWidthInPixels;
+    _mapRect.top = yOffset;
+    _mapRect.height = mapHeightInPixels;
+
+    _background.setSize({mapWidthInPixels, mapHeightInPixels});
+    _background.setPosition(xOffset, yOffset);
+    _background.setFillColor(sf::Color(124, 210, 1));
+
+	for (Block& block: _currentMap->getBlocks())
+	{
+        block.rect.left += xOffset;
+        block.rect.top += yOffset;
+	}
+	
 	_mapRenderer = new MapRenderer(_currentMap);
 
     _font->loadFromFile("resources/fonts/PressStart.ttf");
@@ -67,10 +88,10 @@ void Game::update(float time)
     const float next_y = position.y + direction.y * time * speed;
     const float next_x = position.x + direction.x * time * speed;
 
-    if (next_y <= 0 || next_y >= _windowSize.y)
+    if (next_y <= _mapRect.top || next_y >= _mapRect.top + _mapRect.height)
         direction.y = -direction.y;
 
-    if (next_x <= 0 || next_x >= _windowSize.x)
+    if (next_x <= _mapRect.left || next_x >= _mapRect.left + _mapRect.width)
         direction.x = -direction.x;
 
     auto rect = _ball->getBoundRect();
@@ -110,10 +131,11 @@ void Game::update(float time)
 
 void Game::render(sf::RenderTarget& target)
 {
+    target.draw(_background);
     _mapRenderer->render(target);
 	_ball->render(target);
 
-    for (auto& entity : _entities) {
+    for (Entity* entity : _entities) {
         entity->render(target);
     }
 
@@ -125,10 +147,10 @@ void Game::restart()
 	_isBallFollow = true;
 	
 	const auto deckSize = _player->getBoundRect();
-	const auto deckPosition = sf::Vector2f(_windowSize.x / 2 - deckSize.width / 2, _windowSize.y - 50);
+	const auto deckPosition = sf::Vector2f(_windowSize.x / 2 - deckSize.width / 2, _windowSize.y / 2 + 150);
     _player->setPosition(deckPosition);
 
-	_ball->set_position(deckPosition + sf::Vector2f(0, -15));
+	_ball->set_position(deckPosition + sf::Vector2f(0, -55));
 	auto direction = sf::Vector2f(1, -1);
 	normilize(direction);
 	_ball->set_direction(direction);

@@ -40,6 +40,8 @@ private:
 	sf::Font* _font;
 
 	uint32_t _score;
+	sf::IntRect _mapRect;
+	sf::RectangleShape _background;
 
 	bool _isBallFollow;
 };
