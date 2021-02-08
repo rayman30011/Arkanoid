@@ -42,6 +42,7 @@ public:
 	bool is_collide_block(sf::FloatRect rect);
 	void collide_block(sf::FloatRect rect);
 	void onBlockDestroy(action fn) { _blockDestroyCallbacks.push_back(fn); }
+	void loadMap();
 private:
 	Block createBlock(BlockType type);
 	int getIndex(sf::Vector2u position);
@@ -50,5 +51,6 @@ private:
 private:
 	std::vector<Block> _blocks;
 	std::vector<action> _blockDestroyCallbacks;
+	std::string _fileName;
 };
 

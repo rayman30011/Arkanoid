@@ -1,38 +1,14 @@
 #include "Map.h"
 #include <fstream>
 
-Map::Map(std::string const& file_name)
+Map::Map(std::string const& fileName) : _fileName(fileName)
 {
-	std::ifstream file(file_name);
-	if (file.is_open()) 
-	{
-		std::string line;
-		int y = 0;
-		const int xOffset = MAP_WIDTH * BLOCK_WIDTH / 2;
-		while (getline(file, line)) 
-		{
-			for (int i = 0; i < MAP_WIDTH; i++)
-			{
-				char a = line[i];
-				int tmp = atoi(&a);
-				const auto type = static_cast<BlockType>(tmp);
-				if (type == BlockType::None)
-					continue;
-
-				auto block = createBlock(type);
-				block.rect.top = y * BLOCK_HEIGHT / 2;
-				block.rect.left = i * BLOCK_WIDTH;
-
-				_blocks.push_back(block);
-			}
-			y++;
-		}
-	}
-	file.close();
+	
 }
 
 Map::~Map()
 {
+	
 }
 
 std::vector<Block>& Map::getBlocks()
@@ -79,6 +55,37 @@ bool Map::outBounds(sf::Vector2f position) {
 
 int Map::getIndex(sf::Vector2u position) {
 	return MAP_WIDTH * position.y + position.x;
+}
+
+void Map::loadMap()
+{
+	//_blocks.clear();
+	std::ifstream file(_fileName);
+	if (file.is_open())
+	{
+		std::string line;
+		int y = 0;
+		const int xOffset = MAP_WIDTH * BLOCK_WIDTH / 2;
+		while (getline(file, line))
+		{
+			for (int i = 0; i < MAP_WIDTH; i++)
+			{
+				char a = line[i];
+				int tmp = atoi(&a);
+				const auto type = static_cast<BlockType>(tmp);
+				if (type == BlockType::None)
+					continue;
+
+				auto block = createBlock(type);
+				block.rect.top = y * BLOCK_HEIGHT / 2;
+				block.rect.left = i * BLOCK_WIDTH;
+
+				_blocks.push_back(block);
+			}
+			y++;
+		}
+	}
+	file.close();
 }
 
 Block Map::createBlock(BlockType type)

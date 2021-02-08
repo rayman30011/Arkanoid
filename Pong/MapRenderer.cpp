@@ -36,6 +36,6 @@ void MapRenderer::renderBlock(Block& block)
 	}
 	else
 	{
-		_sprite->setTextureRect(sf::IntRect(BLOCK_WIDTH / 2, 0, BLOCK_WIDTH, BLOCK_HEIGHT));
+		_sprite->setTextureRect(sf::IntRect(BLOCK_WIDTH, 0, BLOCK_WIDTH, BLOCK_HEIGHT));
 	}
 }

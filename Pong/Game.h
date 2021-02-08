@@ -44,5 +44,6 @@ private:
 	sf::RectangleShape _background;
 
 	bool _isBallFollow;
+	int lives;
 };
 

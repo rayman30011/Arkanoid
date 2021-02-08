@@ -20,25 +20,7 @@ void Game::init()
 
 	_currentMap = new Map("resources/levels/1.txt");
 
-    const auto mapHeightInPixels = MAP_HEIDHT * BLOCK_WIDTH;
-    const auto mapWidthInPixels = MAP_WIDTH * BLOCK_WIDTH;
-    const auto yOffset = (_windowSize.y - mapHeightInPixels) / 2;
-    const auto xOffset = (_windowSize.x - mapWidthInPixels) / 2;
-
-    _mapRect.left = xOffset;
-    _mapRect.width = mapWidthInPixels;
-    _mapRect.top = yOffset;
-    _mapRect.height = mapHeightInPixels;
-
-    _background.setSize({mapWidthInPixels, mapHeightInPixels});
-    _background.setPosition(xOffset, yOffset);
-    _background.setFillColor(sf::Color(124, 210, 1));
-
-	for (Block& block: _currentMap->getBlocks())
-	{
-        block.rect.left += xOffset;
-        block.rect.top += yOffset;
-	}
+    lives = 3;
 	
 	_mapRenderer = new MapRenderer(_currentMap);
 
@@ -89,7 +71,14 @@ void Game::update(float time)
     const float next_x = position.x + direction.x * time * speed;
 
     if (next_y <= _mapRect.top || next_y >= _mapRect.top + _mapRect.height)
+    {
         direction.y = -direction.y;
+    	if (next_y >= _mapRect.top + _mapRect.height)
+    	{
+            restart();
+    	}
+    }
+        
 
     if (next_x <= _mapRect.left || next_x >= _mapRect.left + _mapRect.width)
         direction.x = -direction.x;
@@ -144,6 +133,27 @@ void Game::render(sf::RenderTarget& target)
 
 void Game::restart()
 {
+    _currentMap->loadMap();
+    const auto mapHeightInPixels = MAP_HEIDHT * BLOCK_WIDTH;
+    const auto mapWidthInPixels = MAP_WIDTH * BLOCK_WIDTH;
+    const auto yOffset = (_windowSize.y - mapHeightInPixels) / 2;
+    const auto xOffset = (_windowSize.x - mapWidthInPixels) / 2;
+
+    _mapRect.left = xOffset;
+    _mapRect.width = mapWidthInPixels;
+    _mapRect.top = yOffset;
+    _mapRect.height = mapHeightInPixels;
+
+    _background.setSize({ mapWidthInPixels, mapHeightInPixels });
+    _background.setPosition(xOffset, yOffset);
+    _background.setFillColor(sf::Color(124, 210, 1));
+
+    for (Block& block : _currentMap->getBlocks())
+    {
+        block.rect.left += xOffset;
+        block.rect.top += yOffset;
+    }
+	
 	_isBallFollow = true;
 	
 	const auto deckSize = _player->getBoundRect();
