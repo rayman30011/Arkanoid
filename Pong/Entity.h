@@ -1,10 +1,13 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+#include "Game.h"
+
 class Entity
 {
 public:
-	Entity() {
+	Entity(Game* game): _game(game)
+	{
 		_image = std::make_unique<sf::Image>();
 		_texture = std::make_unique<sf::Texture>();
 		_sprite = std::make_unique<sf::Sprite>();
@@ -20,12 +23,15 @@ public:
 	virtual void onDestroy() {}
 
 	virtual void setPosition(sf::Vector2f position);
+
+	Game* getGame() { return _game; }
 	
 protected:
 	std::unique_ptr<sf::Sprite> _sprite;
 	std::unique_ptr<sf::Image> _image;
 	std::unique_ptr<sf::Texture> _texture;
 	sf::FloatRect _boundRect;
+	Game* _game;
 
 	bool _isDestroyed;
 };

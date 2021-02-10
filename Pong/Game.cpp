@@ -1,8 +1,13 @@
 #include "Game.h"
 #include "utils.hpp"
 #include "Time.h"
+#include "Bonus.h"
+#include "Player.h"
 
 #include <iostream>
+#include <Windows.h>
+
+#include "Ball.h"
 
 Game::Game(sf::Vector2u windowSize)
 {
@@ -13,8 +18,8 @@ Game::Game(sf::Vector2u windowSize)
 
 void Game::init()
 {
-	_ball = new Ball("resources/ball.png");
-	_player = new Player("resources/deck.png");
+	_ball = new Ball(this);
+	_player = new Player(this);
     _entities.push_back(_player);
     _entities.push_back(_ball);
 
@@ -27,7 +32,13 @@ void Game::init()
     _font->loadFromFile("resources/fonts/PressStart.ttf");
     sf::Texture& texture = const_cast<sf::Texture&>(_font->getTexture(24));
     texture.setSmooth(false);
-    
+
+    if (!_crtShader.loadFromFile("resources/crt.frag", sf::Shader::Fragment))
+    {
+        MessageBox(nullptr, TEXT("Error from compilation shader"), TEXT("EROOR"), 0);
+        throw;
+    }
+	
     _scoreText.setFont(*_font);
     _scoreText.setString("Score " + std::to_string(_score));
     _scoreText.setCharacterSize(18);
@@ -47,11 +58,15 @@ void Game::init()
     	if (i <= 2)
     	{
     		std::cout << "Bonus X:" << params.position.x << "\tY: " << params.position.y << std::endl;
-    		Bonus* bonus = new Bonus(Bonus::Type::Double);
+    		Bonus* bonus = new Bonus(this);
+            bonus->setType(Bonus::Type::Double);
             bonus->setPosition(params.position);
             _entities.push_back(bonus);
     	}
     });
+
+    _bgTexture.loadFromFile("resources/back.png");
+    _bgSprite.setTexture(_bgTexture);
 
 	restart();
 }
@@ -64,8 +79,8 @@ void Game::update(float time)
 	}
 
     const auto position = _ball->get_position();
-    const auto speed = _ball->get_speed();
-    auto direction = _ball->get_direction();
+    const auto speed = _ball->getSpeed();
+    auto direction = _ball->getDirection();
     
     const float next_y = position.y + direction.y * time * speed;
     const float next_x = position.x + direction.x * time * speed;
@@ -120,15 +135,20 @@ void Game::update(float time)
 
 void Game::render(sf::RenderTarget& target)
 {
-    target.draw(_background);
+    sf::Shader::bind(&_crtShader);
+
+    _bgSprite.setPosition(sf::Vector2f(_mapRect.left, _mapRect.top));
+    target.draw(_bgSprite);
     _mapRenderer->render(target);
 	_ball->render(target);
 
     for (Entity* entity : _entities) {
         entity->render(target);
     }
-
+    
     target.draw(_scoreText);
+	
+    sf::Shader::bind(nullptr);
 }
 
 void Game::restart()
@@ -143,10 +163,6 @@ void Game::restart()
     _mapRect.width = mapWidthInPixels;
     _mapRect.top = yOffset;
     _mapRect.height = mapHeightInPixels;
-
-    _background.setSize({ mapWidthInPixels, mapHeightInPixels });
-    _background.setPosition(xOffset, yOffset);
-    _background.setFillColor(sf::Color(124, 210, 1));
 
     for (Block& block : _currentMap->getBlocks())
     {

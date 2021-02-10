@@ -1,12 +1,11 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-
 #include "Entity.h"
+#include "Game.h"
 
 class Player : public Entity
 {
 public:
-	Player(const std::string& fileName);
+	Player(Game* game);
 	void start() override {};
 	void update(float deltaTime) override;
 	void render(sf::RenderTarget& target) override;

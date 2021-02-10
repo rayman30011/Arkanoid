@@ -1,11 +1,11 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
-#include "Ball.hpp"
-#include "Player.h"
 #include "MapRenderer.h"
-#include "Bonus.h"
+
+class Ball;
+class Player;
+class Entity;
 
 class Game
 {
@@ -22,9 +22,9 @@ public:
 	void update(float time);
 	void render(sf::RenderTarget& target);
 
-	void restart();
+	sf::IntRect getMapRect() { return _mapRect; }
 private:
-	//void updateTimers(float time);
+	void restart();
 private:
 	State _currentState;
 	Map* _currentMap;
@@ -41,7 +41,9 @@ private:
 
 	uint32_t _score;
 	sf::IntRect _mapRect;
-	sf::RectangleShape _background;
+	sf::Texture _bgTexture;
+	sf::Sprite _bgSprite;
+	sf::Shader _crtShader;
 
 	bool _isBallFollow;
 	int lives;

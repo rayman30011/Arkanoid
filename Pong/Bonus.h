@@ -17,8 +17,11 @@ public:
 		SizeDown,
 	};
 
-	Bonus(Type type);
+	Bonus(Game* game);
 
+	void setType(Type type) { _type = type; }
+	Type getType() const { return _type; }
+	
 	void start() override;
 	void update(float dt) override;
 	void render(sf::RenderTarget& target) override;

@@ -3,8 +3,9 @@
 
 class Ball : public Entity {
 public:
-	Ball(const std::string& file_name) {
-		_image->loadFromFile(file_name);
+	Ball(Game* game): Entity(game)
+	{
+		_image->loadFromFile("resources/ball.png");
 		_image->createMaskFromColor(sf::Color::Green);
 
 		_texture->loadFromImage(*_image);
@@ -39,10 +40,10 @@ public:
 
 	const sf::Vector2f& get_position() { return _sprite->getPosition(); }
 
-	float get_speed() { return _speed; }
-	void set_speed(float value) { _speed = value; }
+	float getSpeed() { return _speed; }
+	void setSpeed(float value) { _speed = value; }
 	
-	sf::Vector2f get_direction() { return _direction; }
+	sf::Vector2f getDirection() { return _direction; }
 	void set_direction(sf::Vector2f value) { _direction = value; }
 
 	sf::FloatRect getBoundRect() { return _boundRect; }

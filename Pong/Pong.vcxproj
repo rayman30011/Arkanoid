@@ -154,7 +154,7 @@
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ball.hpp" />
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="Bonus.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
@@ -164,6 +164,9 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="utils.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\crt.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

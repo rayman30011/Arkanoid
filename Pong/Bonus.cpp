@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-Bonus::Bonus(Type type) : _type(type)
+Bonus::Bonus(Game* game): Entity(game)
 {
 	_image = std::make_unique<sf::Image>();
 	bool a = _image->loadFromFile("resources/bonus.png");

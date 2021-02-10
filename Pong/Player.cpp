@@ -1,8 +1,8 @@
 #include "Player.h"
 
-Player::Player(const std::string& fileName) : Entity()
+Player::Player(Game* game): Entity(game)
 {
-	_image->loadFromFile(fileName);
+	_image->loadFromFile("resources/deck.png");
 	_image->createMaskFromColor(sf::Color::Green);
 	
 	_texture->loadFromImage(*_image);
@@ -14,12 +14,23 @@ Player::Player(const std::string& fileName) : Entity()
 
 void Player::update(float deltaTime)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		move({ -200 * deltaTime, 0 });
+	auto currentPosition = _sprite->getPosition();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		currentPosition += { -200 * deltaTime, 0 };
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		move({ 200 * deltaTime, 0 });
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		currentPosition += { 200 * deltaTime, 0 };
+	}
+
+	const auto mapRect = getGame()->getMapRect();
+	const auto& playerRect = _sprite->getTextureRect();
+
+	if (currentPosition.x > mapRect.left && (currentPosition.x + playerRect.width) < (mapRect.width + mapRect.left))
+	{
+		_sprite->setPosition(currentPosition);
 	}
 }
 
