@@ -135,7 +135,7 @@ void Game::update(float time)
 
 void Game::render(sf::RenderTarget& target)
 {
-    sf::Shader::bind(&_crtShader);
+    //sf::Shader::bind(&_crtShader);
 
     _bgSprite.setPosition(sf::Vector2f(_mapRect.left, _mapRect.top));
     target.draw(_bgSprite);
@@ -148,7 +148,7 @@ void Game::render(sf::RenderTarget& target)
     
     target.draw(_scoreText);
 	
-    sf::Shader::bind(nullptr);
+    //sf::Shader::bind(nullptr);
 }
 
 void Game::restart()

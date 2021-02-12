@@ -9,7 +9,6 @@ public:
 		_image->createMaskFromColor(sf::Color::Green);
 
 		_texture->loadFromImage(*_image);
-
 		_sprite->setTexture(*_texture);
 
 		auto size = _texture->getSize();

@@ -30,7 +30,7 @@ void Player::update(float deltaTime)
 
 	if (currentPosition.x > mapRect.left && (currentPosition.x + playerRect.width) < (mapRect.width + mapRect.left))
 	{
-		_sprite->setPosition(currentPosition);
+		setPosition(currentPosition);
 	}
 }
 
