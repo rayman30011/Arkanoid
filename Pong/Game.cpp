@@ -8,6 +8,7 @@
 #include <Windows.h>
 
 #include "Ball.h"
+#include "Slime.h"
 
 Game::Game(sf::Vector2u windowSize)
 {
@@ -20,8 +21,12 @@ void Game::init()
 {
 	_ball = new Ball(this);
 	_player = new Player(this);
+    Slime* slime = new Slime(this);
+    slime->setPosition({ 800, 450 });
+    slime->start();
     _entities.push_back(_player);
     _entities.push_back(_ball);
+    _entities.push_back(slime);
 
 	_currentMap = new Map("resources/levels/1.txt");
 
