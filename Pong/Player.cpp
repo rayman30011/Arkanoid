@@ -34,11 +34,6 @@ void Player::update(float deltaTime)
 	}
 }
 
-void Player::render(sf::RenderTarget& target)
-{
-	target.draw(*_sprite);
-}
-
 void Player::setPosition(sf::Vector2f position)
 {
 	_boundRect.left = position.x;

@@ -20,12 +20,6 @@ void Bonus::start()
 {
 }
 
-void Bonus::render(sf::RenderTarget& target)
-{
-	auto pos = _sprite->getPosition();
-	target.draw(*_sprite);
-}
-
 void Bonus::update(float dt)
 {
 	_sprite->move({ 0, 100 * dt });

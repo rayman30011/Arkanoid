@@ -15,7 +15,7 @@ public:
 		_boundRect.height = size.y;
 		_boundRect.width = size.x;
 
-		_speed = 250;
+		_speed = 150;
 	}
 
 	void start() override {}
@@ -25,10 +25,6 @@ public:
 		auto position = _sprite->getPosition();
 		_boundRect.left = position.x;
 		_boundRect.top = position.y;
-	}
-
-	void render(sf::RenderTarget& target) override {
-		target.draw(*_sprite);
 	}
 
 	void set_position(sf::Vector2f const& position) {

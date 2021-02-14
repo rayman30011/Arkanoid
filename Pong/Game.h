@@ -25,6 +25,7 @@ public:
 	sf::IntRect getMapRect() { return _mapRect; }
 private:
 	void restart();
+	void reinitMap();
 private:
 	State _currentState;
 	Map* _currentMap;

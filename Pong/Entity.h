@@ -17,7 +17,7 @@ public:
 
 	virtual void start() = 0;
 	virtual void update(float deltaTime) = 0;
-	virtual void render(sf::RenderTarget& target) = 0;
+	virtual void render(sf::RenderTarget& target);
 
 	virtual void onCollide(Entity& other) {}
 	virtual void onDestroy() {}

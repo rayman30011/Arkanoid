@@ -24,7 +24,6 @@ public:
 	
 	void start() override;
 	void update(float dt) override;
-	void render(sf::RenderTarget& target) override;
 
 private:
 

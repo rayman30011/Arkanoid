@@ -21,7 +21,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Bonus.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="utils.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Slime.cpp" />
   </ItemGroup>

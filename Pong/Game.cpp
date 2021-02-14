@@ -21,12 +21,8 @@ void Game::init()
 {
 	_ball = new Ball(this);
 	_player = new Player(this);
-    Slime* slime = new Slime(this);
-    slime->setPosition({ 800, 450 });
-    slime->start();
     _entities.push_back(_player);
     _entities.push_back(_ball);
-    _entities.push_back(slime);
 
 	_currentMap = new Map("resources/levels/1.txt");
 
@@ -73,7 +69,13 @@ void Game::init()
     _bgTexture.loadFromFile("resources/back.png");
     _bgSprite.setTexture(_bgTexture);
 
+    reinitMap();
 	restart();
+
+    Slime* slime = new Slime(this);
+    slime->setPosition({ 800, 450 });
+    slime->start();
+    _entities.push_back(slime);
 }
 
 void Game::update(float time)
@@ -95,6 +97,7 @@ void Game::update(float time)
         direction.y = -direction.y;
     	if (next_y >= _mapRect.top + _mapRect.height)
     	{
+            reinitMap();
             restart();
     	}
     }
@@ -158,6 +161,22 @@ void Game::render(sf::RenderTarget& target)
 
 void Game::restart()
 {
+	_isBallFollow = true;
+	
+	const auto deckSize = _player->getBoundRect();
+	const auto deckPosition = sf::Vector2f(_windowSize.x / 2 - deckSize.width / 2, _windowSize.y / 2 + 150);
+    _player->setPosition(deckPosition);
+
+	_ball->set_position(deckPosition + sf::Vector2f(0, -55));
+	auto direction = sf::Vector2f(1, -1);
+	normilize(direction);
+	_ball->set_direction(direction);
+
+	_currentState = State::Running;
+}
+
+void Game::reinitMap()
+{
     _currentMap->loadMap();
     const auto mapHeightInPixels = MAP_HEIDHT * BLOCK_WIDTH;
     const auto mapWidthInPixels = MAP_WIDTH * BLOCK_WIDTH;
@@ -174,17 +193,4 @@ void Game::restart()
         block.rect.left += xOffset;
         block.rect.top += yOffset;
     }
-	
-	_isBallFollow = true;
-	
-	const auto deckSize = _player->getBoundRect();
-	const auto deckPosition = sf::Vector2f(_windowSize.x / 2 - deckSize.width / 2, _windowSize.y / 2 + 150);
-    _player->setPosition(deckPosition);
-
-	_ball->set_position(deckPosition + sf::Vector2f(0, -55));
-	auto direction = sf::Vector2f(1, -1);
-	normilize(direction);
-	_ball->set_direction(direction);
-
-	_currentState = State::Running;
 }
