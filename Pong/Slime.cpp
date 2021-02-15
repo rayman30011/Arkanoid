@@ -1,7 +1,7 @@
 #include "Slime.h"
 #include "utils.hpp"
 
-Slime::Slime(Game* game): Entity(game)
+Slime::Slime(Game* game): Entity(game), _animator(_sprite.get())
 {
 	if (!_image->loadFromFile("resources/slime.png"))
 		throw;
@@ -9,12 +9,22 @@ Slime::Slime(Game* game): Entity(game)
 	_sprite->setTexture(*_texture);
 	_sprite->setTextureRect(sf::IntRect(0, 0, 16, 16));
 
-	_speed = 0.01f;
+	_speed = 0.005f;
 }
 
 void Slime::start()
 {
 	retarget();
+
+	std::vector<sf::IntRect> frames;
+	for (int i = 0; i < 4; ++i)
+	{
+		frames.push_back(sf::IntRect(i * 16, 0, 16, 16));
+	}
+
+	_animator.addAnimation("run", { 8, frames });
+	_animator.setAnimation("run");
+	_animator.play();
 }
 
 void Slime::update(float deltaTime)
@@ -28,6 +38,8 @@ void Slime::update(float deltaTime)
 	normilize(direction);
 	auto step = direction * _speed;
 	_sprite->move(step);
+	_animator.update(deltaTime);
+	
 }
 
 void Slime::retarget()

@@ -1,5 +1,7 @@
 #pragma once
 #include "Entity.h"
+#include "Animator.h"
+
 class Slime : public Entity
 {
 public:
@@ -9,8 +11,11 @@ public:
 
 private:
 	void retarget();
+
 private:
 	sf::Vector2f _target;
 	float _speed;
+
+	Animator _animator;
 };
 

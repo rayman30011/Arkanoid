@@ -12,6 +12,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{aff8b0b1-e4d7-4992-867b-f6cb56a8cd9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{1b0d59ce-4c56-4079-8f77-c2ef9c18c87b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp" />
@@ -23,6 +26,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Slime.cpp" />
+    <ClCompile Include="Animator.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.hpp">
@@ -57,6 +63,12 @@
     </ClInclude>
     <ClInclude Include="Slime.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Animation</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>Файлы заголовков</Filter>
