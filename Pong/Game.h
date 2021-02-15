@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "MapRenderer.h"
+#include "Constants.h"
 
 class Ball;
 class Player;
@@ -23,9 +24,21 @@ public:
 	void render(sf::RenderTarget& target);
 
 	sf::IntRect getMapRect() { return _mapRect; }
+
+	template<class T>
+	T* createEntity()
+	{
+		T* entity = new T(this);
+		entity->start();
+		return entity;
+	}
+
+	bool isCollide(const Entity &entity, constants::Layer);
+	
 private:
 	void restart();
 	void reinitMap();
+
 private:
 	State _currentState;
 	Map* _currentMap;

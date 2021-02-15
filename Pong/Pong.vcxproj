@@ -155,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="Bonus.h" />
     <ClInclude Include="Entity.h" />

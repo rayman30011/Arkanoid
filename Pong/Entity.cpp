@@ -14,3 +14,22 @@ void Entity::setPosition(sf::Vector2f position)
 {
 	_sprite->setPosition(position);
 }
+
+sf::FloatRect Entity::getBoundRect()
+{
+	sf::FloatRect resultRect;
+	const auto position = getPosition();
+	resultRect.left = position.x;
+	resultRect.top = position.y;
+
+	const auto& textureRect = _sprite->getTextureRect();
+	resultRect.width = textureRect.width;
+	resultRect.height = textureRect.height;
+	
+	return resultRect;
+}
+
+void Entity::destroy()
+{
+	_isDestroyed = true;
+}

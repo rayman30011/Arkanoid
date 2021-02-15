@@ -159,6 +159,25 @@ void Game::render(sf::RenderTarget& target)
     //sf::Shader::bind(nullptr);
 }
 
+bool Game::isCollide(const Entity& entity, constants::Layer layer = constants::Layer::Undefined)
+{
+    auto mask = layer;
+	if (layer == constants::Layer::Undefined)
+	{
+        mask = entity.getLayer();
+	}
+	
+	for (auto* el: _entities)
+	{
+		if (el->getLayer() == mask && entity.isCollidable())
+		{
+            auto mainEntityRect = entity.isCollidable();
+		}
+	}
+	
+    return false;
+}
+
 void Game::restart()
 {
 	_isBallFollow = true;
@@ -167,7 +186,7 @@ void Game::restart()
 	const auto deckPosition = sf::Vector2f(_windowSize.x / 2 - deckSize.width / 2, _windowSize.y / 2 + 150);
     _player->setPosition(deckPosition);
 
-	_ball->set_position(deckPosition + sf::Vector2f(0, -55));
+	_ball->setPosition(deckPosition + sf::Vector2f(0, -55));
 	auto direction = sf::Vector2f(1, -1);
 	normilize(direction);
 	_ball->set_direction(direction);

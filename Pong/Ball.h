@@ -22,15 +22,6 @@ public:
 
 	void update(float delta_time) override {
 		_sprite->move(_direction * _speed * delta_time);
-		auto position = _sprite->getPosition();
-		_boundRect.left = position.x;
-		_boundRect.top = position.y;
-	}
-
-	void set_position(sf::Vector2f const& position) {
-		_sprite->setPosition(position);
-		_boundRect.left = position.x;
-		_boundRect.top = position.y;
 	}
 
 	const sf::Vector2f& get_position() { return _sprite->getPosition(); }
@@ -41,10 +32,7 @@ public:
 	sf::Vector2f getDirection() { return _direction; }
 	void set_direction(sf::Vector2f value) { _direction = value; }
 
-	sf::FloatRect getBoundRect() { return _boundRect; }
-
 private:
 	float _speed;
-	sf::FloatRect _boundRect;
 	sf::Vector2f _direction;
 };

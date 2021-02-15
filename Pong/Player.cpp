@@ -34,14 +34,6 @@ void Player::update(float deltaTime)
 	}
 }
 
-void Player::setPosition(sf::Vector2f position)
-{
-	_boundRect.left = position.x;
-	_boundRect.top = position.y;
-
-	_sprite->setPosition(position);
-}
-
 void Player::move(sf::Vector2f direction)
 {
 	_sprite->move(direction);
