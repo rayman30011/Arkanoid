@@ -15,7 +15,7 @@ void Entity::setPosition(sf::Vector2f position)
 	_sprite->setPosition(position);
 }
 
-sf::FloatRect Entity::getBoundRect()
+sf::FloatRect Entity::getBoundRect() const
 {
 	sf::FloatRect resultRect;
 	const auto position = getPosition();

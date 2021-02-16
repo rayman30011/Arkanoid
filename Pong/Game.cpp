@@ -159,8 +159,13 @@ void Game::render(sf::RenderTarget& target)
     //sf::Shader::bind(nullptr);
 }
 
-bool Game::isCollide(const Entity& entity, constants::Layer layer = constants::Layer::Undefined)
+bool Game::isCollide(Entity& entity, constants::Layer layer = constants::Layer::Undefined)
 {
+	if (!entity.isCollidable())
+	{
+        return false;
+	}
+	
     auto mask = layer;
 	if (layer == constants::Layer::Undefined)
 	{
@@ -169,9 +174,16 @@ bool Game::isCollide(const Entity& entity, constants::Layer layer = constants::L
 	
 	for (auto* el: _entities)
 	{
-		if (el->getLayer() == mask && entity.isCollidable())
+		if (el->getLayer() == mask && el->isCollidable())
 		{
-            auto mainEntityRect = entity.isCollidable();
+            auto mainEntityRect = entity.getBoundRect();
+            auto otherEntityRect = el->getBoundRect();
+			if (mainEntityRect.intersects(otherEntityRect))
+			{
+                entity.onCollide(*el);
+                el->onCollide(entity);
+                return true;
+			}
 		}
 	}
 	

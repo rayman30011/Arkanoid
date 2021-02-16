@@ -27,7 +27,7 @@ public:
 	virtual void setPosition(sf::Vector2f position);
 	sf::Vector2f getPosition() { return _sprite->getPosition(); }
 
-	virtual sf::FloatRect getBoundRect();
+	sf::FloatRect getBoundRect() const;
 
 	Game* getGame() { return _game; }
 

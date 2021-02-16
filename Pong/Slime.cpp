@@ -17,9 +17,10 @@ void Slime::start()
 	retarget();
 
 	std::vector<sf::IntRect> frames;
+	frames.reserve(4);
 	for (int i = 0; i < 4; ++i)
 	{
-		frames.push_back(sf::IntRect(i * 16, 0, 16, 16));
+		frames.emplace_back(i * 16, 0, 16, 16);
 	}
 
 	_animator.addAnimation("run", { 8, frames });

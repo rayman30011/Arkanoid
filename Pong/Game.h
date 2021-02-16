@@ -33,7 +33,7 @@ public:
 		return entity;
 	}
 
-	bool isCollide(const Entity &entity, constants::Layer);
+	bool isCollide(Entity &entity, constants::Layer);
 	
 private:
 	void restart();
