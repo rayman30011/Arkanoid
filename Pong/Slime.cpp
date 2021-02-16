@@ -26,6 +26,9 @@ void Slime::start()
 	_animator.addAnimation("run", { 8, frames });
 	_animator.setAnimation("run");
 	_animator.play();
+
+	setLayer(constants::Layer::Enemy);
+	setCollidable(true);
 }
 
 void Slime::update(float deltaTime)
@@ -41,6 +44,11 @@ void Slime::update(float deltaTime)
 	_sprite->move(step);
 	_animator.update(deltaTime);
 	
+}
+
+void Slime::onCollide(Entity& other)
+{
+	destroy();
 }
 
 void Slime::retarget()

@@ -14,6 +14,7 @@ public:
 		auto size = _texture->getSize();
 		_boundRect.height = size.y;
 		_boundRect.width = size.x;
+		setCollidable(true);
 
 		_speed = 150;
 	}
@@ -31,6 +32,10 @@ public:
 	
 	sf::Vector2f getDirection() { return _direction; }
 	void set_direction(sf::Vector2f value) { _direction = value; }
+	void onCollide(Entity& other) override
+	{
+		
+	}
 
 private:
 	float _speed;

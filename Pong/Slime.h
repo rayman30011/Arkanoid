@@ -8,6 +8,7 @@ public:
 	Slime(Game* game);
 	void start() override;
 	void update(float deltaTime) override;
+	void onCollide(Entity& other) override;
 
 private:
 	void retarget();

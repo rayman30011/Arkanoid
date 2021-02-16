@@ -76,6 +76,11 @@ void Game::init()
     slime->setPosition({ 800, 450 });
     slime->start();
     _entities.push_back(slime);
+
+    slime = new Slime(this);
+    slime->setPosition({ 860, 400 });
+    slime->start();
+    _entities.push_back(slime);
 }
 
 void Game::update(float time)
@@ -134,11 +139,19 @@ void Game::update(float time)
 
     normilize(direction);
     _ball->set_direction(direction);
+    isCollide(*_ball, constants::Layer::Enemy);
 
-    for (Entity* entity : _entities) 
-    {
-        entity->update(time);
-    }
+	for (auto it = _entities.begin(); it != _entities.end();)
+	{
+        (*it)->update(time);
+        if ((*it)->isDestroyed())
+        {
+            it = _entities.erase(it);
+            continue;
+        }
+
+        ++it;
+	}
 }
 
 void Game::render(sf::RenderTarget& target)
