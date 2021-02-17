@@ -30,10 +30,13 @@ public:
 	{
 		T* entity = new T(this);
 		entity->start();
+		_entities.push_back(entity);
 		return entity;
 	}
 
 	bool isCollide(Entity &entity, constants::Layer);
+
+	std::vector<Entity*> getEntitiesByName(std::string name);
 	
 private:
 	void restart();

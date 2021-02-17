@@ -14,18 +14,20 @@ public:
 		auto size = _texture->getSize();
 		_boundRect.height = size.y;
 		_boundRect.width = size.x;
-		setCollidable(true);
-
 		_speed = 150;
+
+		setName("player");
+		setCollidable(true);
 	}
 
-	void start() override {}
+	void start() override
+	{
+		
+	}
 
 	void update(float delta_time) override {
 		_sprite->move(_direction * _speed * delta_time);
 	}
-
-	const sf::Vector2f& get_position() { return _sprite->getPosition(); }
 
 	float getSpeed() { return _speed; }
 	void setSpeed(float value) { _speed = value; }

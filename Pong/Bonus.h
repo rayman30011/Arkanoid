@@ -24,9 +24,11 @@ public:
 	
 	void start() override;
 	void update(float dt) override;
+	void onCollide(Entity& other) override;
+
+	void doubleBall();
 
 private:
-
 	Type _type;
 };
 

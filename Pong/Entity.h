@@ -39,10 +39,14 @@ public:
 
 	constants::Layer getLayer() const { return _layer; }
 	void setLayer(constants::Layer value) { _layer = value; }
+
+	void setName(std::string value) { _name = value; }
+	std::string getName() { return _name; }
 protected:
 	std::unique_ptr<sf::Sprite> _sprite;
 	std::unique_ptr<sf::Image> _image;
 	std::unique_ptr<sf::Texture> _texture;
+	std::string _name;
 	sf::FloatRect _boundRect;
 	Game* _game;
 

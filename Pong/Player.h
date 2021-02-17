@@ -6,7 +6,7 @@ class Player : public Entity
 {
 public:
 	Player(Game* game);
-	void start() override {};
+	void start() override;
 	void update(float deltaTime) override;
 private:
 	void move(sf::Vector2f direction);

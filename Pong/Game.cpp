@@ -59,10 +59,9 @@ void Game::init()
     	if (i <= 2)
     	{
     		std::cout << "Bonus X:" << params.position.x << "\tY: " << params.position.y << std::endl;
-    		Bonus* bonus = new Bonus(this);
+            Bonus* bonus = createEntity<Bonus>();
             bonus->setType(Bonus::Type::Double);
             bonus->setPosition(params.position);
-            _entities.push_back(bonus);
     	}
     });
 
@@ -72,15 +71,11 @@ void Game::init()
     reinitMap();
 	restart();
 
-    Slime* slime = new Slime(this);
+    Slime* slime = createEntity<Slime>();
     slime->setPosition({ 800, 450 });
-    slime->start();
-    _entities.push_back(slime);
 
-    slime = new Slime(this);
+    slime = createEntity<Slime>();
     slime->setPosition({ 860, 400 });
-    slime->start();
-    _entities.push_back(slime);
 }
 
 void Game::update(float time)
@@ -90,7 +85,7 @@ void Game::update(float time)
 		_isBallFollow = false;
 	}
 
-    const auto position = _ball->get_position();
+    const auto position = _ball->getPosition();
     const auto speed = _ball->getSpeed();
     auto direction = _ball->getDirection();
     
@@ -140,6 +135,7 @@ void Game::update(float time)
     normilize(direction);
     _ball->set_direction(direction);
     isCollide(*_ball, constants::Layer::Enemy);
+    isCollide(*_player, constants::Layer::Bonus);
 
 	for (auto it = _entities.begin(); it != _entities.end();)
 	{
@@ -156,8 +152,6 @@ void Game::update(float time)
 
 void Game::render(sf::RenderTarget& target)
 {
-    //sf::Shader::bind(&_crtShader);
-
     _bgSprite.setPosition(sf::Vector2f(_mapRect.left, _mapRect.top));
     target.draw(_bgSprite);
     _mapRenderer->render(target);
@@ -168,8 +162,6 @@ void Game::render(sf::RenderTarget& target)
     }
     
     target.draw(_scoreText);
-	
-    //sf::Shader::bind(nullptr);
 }
 
 bool Game::isCollide(Entity& entity, constants::Layer layer = constants::Layer::Undefined)
@@ -201,6 +193,19 @@ bool Game::isCollide(Entity& entity, constants::Layer layer = constants::Layer::
 	}
 	
     return false;
+}
+
+std::vector<Entity*> Game::getEntitiesByName(std::string name)
+{
+    std::vector<Entity*> result;
+    for (auto entity : _entities)
+    {
+	    if (entity->getName() == name)
+	    {
+            result.push_back(entity);
+	    }
+    }
+    return result;
 }
 
 void Game::restart()
