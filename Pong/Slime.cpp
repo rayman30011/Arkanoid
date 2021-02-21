@@ -29,6 +29,7 @@ void Slime::start()
 
 	setLayer(constants::Layer::Enemy);
 	setCollidable(true);
+	setName("slime");
 }
 
 void Slime::update(float deltaTime)

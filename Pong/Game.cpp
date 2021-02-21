@@ -9,6 +9,7 @@
 
 #include "Ball.h"
 #include "Slime.h"
+#include <algorithm>
 
 Game::Game(sf::Vector2u windowSize)
 {
@@ -123,17 +124,19 @@ void Game::update(float time)
     isCollide(*_ball, constants::Layer::Enemy);
     isCollide(*_player, constants::Layer::Bonus);
 
-	for (auto it = _entities.begin(); it != _entities.end();)
+	for (auto* entity: _entities)
 	{
-        (*it)->update(time);
-        if ((*it)->isDestroyed())
-        {
-            it = _entities.erase(it);
-            continue;
-        }
-
-        ++it;
+        if (entity == nullptr) continue;
+		
+        entity->update(time);
 	}
+
+    auto it = std::remove_if(_entities.begin(), _entities.end(), [](Entity* entity)
+    {
+	    return entity->isDestroyed();
+    });
+
+    _entities.erase(it, _entities.end());
 }
 
 void Game::render(sf::RenderTarget& target)
