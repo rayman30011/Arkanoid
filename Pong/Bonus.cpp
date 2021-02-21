@@ -37,25 +37,11 @@ void Bonus::onCollide(Entity& other)
 	{
 		return;
 	}
-
-	std::cout << "bonus" << std::endl;
 	
 	switch (_type)
 	{
 	case Type::Double:
 		doubleBall();
-		{
-			auto balls = getGame()->getEntitiesByName("ball");
-			for (auto* ball: balls)
-			{
-				auto casted = static_cast<Ball*>(ball);
-				auto* newBall = getGame()->createEntity<Ball>();
-				newBall->setPosition(ball->getPosition());
-				auto ballDirection = casted->getDirection();
-				ballDirection.x = -ballDirection.x;
-				newBall->set_direction(ballDirection);
-			}
-		}
 		break;
 	case Type::None: break;
 	case Type::SpeedUp: break;
@@ -69,14 +55,14 @@ void Bonus::onCollide(Entity& other)
 
 void Bonus::doubleBall()
 {
-	auto* const game = getGame();
-	auto balls = game->getEntitiesByName("ball");
+	auto balls = getGame()->getEntitiesByName("ball");
 	for (auto* ball : balls)
 	{
-		auto* castedBall = static_cast<Ball*>(ball);
-		auto newBall = game->createEntity<Ball>();
-		auto oldDirection = castedBall->getDirection();
-		newBall->set_direction({ -oldDirection.x, oldDirection.y });
-		newBall->setPosition(castedBall->getPosition());
+		auto casted = static_cast<Ball*>(ball);
+		auto* newBall = getGame()->createEntity<Ball>();
+		newBall->setPosition(ball->getPosition());
+		auto ballDirection = casted->getDirection();
+		ballDirection.x = -ballDirection.x;
+		newBall->set_direction(ballDirection);
 	}
 }
