@@ -29,6 +29,7 @@
     <ClCompile Include="Animator.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Ball.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.hpp">

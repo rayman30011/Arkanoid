@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Bonus.cpp" />
     <ClCompile Include="Entity.cpp" />

@@ -22,12 +22,11 @@ public:
 
 	void start() override
 	{
-		
+		setName("ball");
+		setCollidable(true);
 	}
 
-	void update(float delta_time) override {
-		_sprite->move(_direction * _speed * delta_time);
-	}
+	void update(float delta_time) override;
 
 	float getSpeed() { return _speed; }
 	void setSpeed(float value) { _speed = value; }

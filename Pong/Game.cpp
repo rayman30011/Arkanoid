@@ -92,20 +92,6 @@ void Game::update(float time)
     const float next_y = position.y + direction.y * time * speed;
     const float next_x = position.x + direction.x * time * speed;
 
-    if (next_y <= _mapRect.top || next_y >= _mapRect.top + _mapRect.height)
-    {
-        direction.y = -direction.y;
-    	if (next_y >= _mapRect.top + _mapRect.height)
-    	{
-            reinitMap();
-            restart();
-    	}
-    }
-        
-
-    if (next_x <= _mapRect.left || next_x >= _mapRect.left + _mapRect.width)
-        direction.x = -direction.x;
-
     auto rect = _ball->getBoundRect();
     rect.left = next_x;
     if (_currentMap->is_collide_block(rect))
