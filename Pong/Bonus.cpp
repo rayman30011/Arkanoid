@@ -1,5 +1,7 @@
 #include "Bonus.h"
 
+
+#include <iostream>
 #include <SFML/Graphics.hpp>
 
 #include "Ball.h"
@@ -31,14 +33,28 @@ void Bonus::update(float dt)
 
 void Bonus::onCollide(Entity& other)
 {
+	if (other.getName() != "player")
+	{
+		return;
+	}
+
+	std::cout << "bonus" << std::endl;
+	
 	switch (_type)
 	{
 	case Type::Double:
 		doubleBall();
 		{
-			auto ball = getGame()->createEntity<Ball>();
-			ball->setPosition({800.f, 350.f});
-			ball->set_direction({ 1, 1 });
+			auto balls = getGame()->getEntitiesByName("ball");
+			for (auto* ball: balls)
+			{
+				auto casted = static_cast<Ball*>(ball);
+				auto* newBall = getGame()->createEntity<Ball>();
+				newBall->setPosition(ball->getPosition());
+				auto ballDirection = casted->getDirection();
+				ballDirection.x = -ballDirection.x;
+				newBall->set_direction(ballDirection);
+			}
 		}
 		break;
 	case Type::None: break;

@@ -16,7 +16,7 @@ public:
 		_boundRect.width = size.x;
 		_speed = 150;
 
-		setName("player");
+		setName("ball");
 		setCollidable(true);
 	}
 
