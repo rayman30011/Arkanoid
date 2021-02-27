@@ -29,25 +29,24 @@ void Slime::start()
 
 	setLayer(constants::Layer::Enemy);
 	setCollidable(true);
-	setName("slime");
 }
 
 void Slime::update(float deltaTime)
 {
 	const auto currentPosition = _sprite->getPosition();
 	auto direction = _target - currentPosition;
-	if (len(direction) <= 3.5f)
+	if (utils::len(direction) <= 3.5f)
 	{
 		retarget();
 	}
-	normilize(direction);
+	utils::normalize(direction);
 	auto step = direction * _speed;
 	_sprite->move(step);
 	_animator.update(deltaTime);
 	
 }
 
-void Slime::onCollide(Entity& other)
+void Slime::onCollide(Entity* other)
 {
 	destroy();
 }

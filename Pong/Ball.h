@@ -15,14 +15,14 @@ public:
 		_boundRect.height = size.y;
 		_boundRect.width = size.x;
 		_speed = 150;
-
-		setName("ball");
+		
 		setCollidable(true);
 	}
 
+	std::string name() override { return "ball"; }
+
 	void start() override
 	{
-		setName("ball");
 		setCollidable(true);
 	}
 
@@ -33,10 +33,6 @@ public:
 	
 	sf::Vector2f getDirection() { return _direction; }
 	void set_direction(sf::Vector2f value) { _direction = value; }
-	void onCollide(Entity& other) override
-	{
-		
-	}
 
 private:
 	float _speed;

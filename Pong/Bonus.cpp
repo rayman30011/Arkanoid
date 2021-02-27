@@ -1,7 +1,5 @@
 #include "Bonus.h"
 
-
-#include <iostream>
 #include <SFML/Graphics.hpp>
 
 #include "Ball.h"
@@ -31,9 +29,10 @@ void Bonus::update(float dt)
 	_sprite->move({ 0, 100 * dt });
 }
 
-void Bonus::onCollide(Entity& other)
+void Bonus::onCollide(Entity* other)
 {
-	if (other.getName() != "player")
+	auto name = other->name();
+	if (name != "player")
 	{
 		return;
 	}

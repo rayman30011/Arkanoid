@@ -34,9 +34,10 @@ public:
 		return entity;
 	}
 
-	bool isCollide(Entity &entity, constants::Layer);
+	bool isCollide(Entity* entity, constants::Layer);
+	std::vector<Entity*> getEntitiesByName(const std::string& name);
 
-	std::vector<Entity*> getEntitiesByName(std::string name);
+	Map* getMap() { return _currentMap; }
 	
 private:
 	void restart();

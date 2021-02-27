@@ -6,9 +6,12 @@ class Slime : public Entity
 {
 public:
 	Slime(Game* game);
+
+	std::string name() override { return "slime"; }
+	
 	void start() override;
 	void update(float deltaTime) override;
-	void onCollide(Entity& other) override;
+	void onCollide(Entity* other) override;
 
 private:
 	void retarget();

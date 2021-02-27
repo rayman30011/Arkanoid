@@ -1,6 +1,4 @@
 #pragma once
-#include "memory"
-#include <SFML/Graphics.hpp>
 
 #include "Entity.h"
 
@@ -19,12 +17,14 @@ public:
 
 	Bonus(Game* game);
 
+	std::string name() override { return "bonus"; }
+	
 	void setType(Type type) { _type = type; }
 	Type getType() const { return _type; }
 	
 	void start() override;
 	void update(float dt) override;
-	void onCollide(Entity& other) override;
+	void onCollide(Entity* other) override;
 
 	void doubleBall();
 

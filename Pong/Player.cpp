@@ -11,7 +11,6 @@ Player::Player(Game* game): Entity(game)
 	_boundRect.width = _image->getSize().x;
 	_boundRect.height = _image->getSize().y;
 
-	setName("player");
 	setCollidable(true);
 }
 

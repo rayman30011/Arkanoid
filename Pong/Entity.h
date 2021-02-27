@@ -15,13 +15,13 @@ public:
 		_sprite = std::make_unique<sf::Sprite>();
 	}
 
-	virtual std::string name() { return "hello"; }
+	virtual std::string name() { return "entity"; }
 
 	virtual void start() = 0;
 	virtual void update(float deltaTime) = 0;
 	virtual void render(sf::RenderTarget& target);
 
-	virtual void onCollide(Entity& other) {}
+	virtual void onCollide(Entity* other) {}
 	virtual void onDestroy() {}
 
 	virtual void setPosition(sf::Vector2f position);
@@ -39,9 +39,7 @@ public:
 
 	constants::Layer getLayer() const { return _layer; }
 	void setLayer(constants::Layer value) { _layer = value; }
-
-	void setName(std::string value) { _name = value; }
-	std::string getName() { return _name; }
+	
 protected:
 	std::unique_ptr<sf::Sprite> _sprite;
 	std::unique_ptr<sf::Image> _image;

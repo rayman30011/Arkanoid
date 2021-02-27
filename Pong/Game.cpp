@@ -57,9 +57,8 @@ void Game::init()
     _currentMap->onBlockDestroy([this](BlockActionParams params) -> void
     {
         int i = rand() % 20;
-    	if (i <= 2)
+    	if (i <= 5)
     	{
-    		std::cout << "Bonus X:" << params.position.x << "\tY: " << params.position.y << std::endl;
             Bonus* bonus = createEntity<Bonus>();
             bonus->setType(Bonus::Type::Double);
             bonus->setPosition(params.position);
@@ -86,54 +85,26 @@ void Game::update(float time)
 		_isBallFollow = false;
 	}
 
-    const auto position = _ball->getPosition();
-    const auto speed = _ball->getSpeed();
-    auto direction = _ball->getDirection();
-    
-    const float next_y = position.y + direction.y * time * speed;
-    const float next_x = position.x + direction.x * time * speed;
+	
+    isCollide(_player, constants::Layer::Bonus);
 
-    auto rect = _ball->getBoundRect();
-    rect.left = next_x;
-    if (_currentMap->is_collide_block(rect))
+    for (size_t i = 0; i < _entities.size(); ++i)
     {
-        direction.x = -direction.x;
-        _currentMap->collide_block(rect);
-        rect.left = position.x;
-    }
-
-    rect.top = next_y;
-    if (_currentMap->is_collide_block(rect))
-    {
-        direction.y = -direction.y;
-        _currentMap->collide_block(rect);
-    }
-
-    if (_player->getBoundRect().intersects(rect))
-    {
-        direction.y = -direction.y;
-        const auto playerRect = _player->getBoundRect();
-        auto tmp = rect;
-        const auto left = playerRect.left;
-        tmp.left -= left;
-        direction.x = tmp.left / playerRect.width * 2 - 1;
-    }
-
-    normilize(direction);
-    _ball->set_direction(direction);
-    isCollide(*_ball, constants::Layer::Enemy);
-    isCollide(*_player, constants::Layer::Bonus);
-
-	for (auto* entity: _entities)
-	{
+        auto entity = _entities[i];
         if (entity == nullptr) continue;
-		
+
         entity->update(time);
-	}
+
+    	if (entity->isDestroyed())
+    	{
+            delete entity;
+            _entities[i] = nullptr;
+    	}
+    }
 
     auto it = std::remove_if(_entities.begin(), _entities.end(), [](Entity* entity)
     {
-	    return entity->isDestroyed();
+	    return entity == nullptr;
     });
 
     _entities.erase(it, _entities.end());
@@ -153,9 +124,9 @@ void Game::render(sf::RenderTarget& target)
     target.draw(_scoreText);
 }
 
-bool Game::isCollide(Entity& entity, constants::Layer layer = constants::Layer::Undefined)
+bool Game::isCollide(Entity* entity, constants::Layer layer = constants::Layer::Undefined)
 {
-	if (!entity.isCollidable())
+	if (!entity->isCollidable())
 	{
         return false;
 	}
@@ -163,18 +134,18 @@ bool Game::isCollide(Entity& entity, constants::Layer layer = constants::Layer::
     auto mask = layer;
 	if (layer == constants::Layer::Undefined)
 	{
-        mask = entity.getLayer();
+        mask = entity->getLayer();
 	}
 	
 	for (auto* el: _entities)
 	{
 		if (el->getLayer() == mask && el->isCollidable())
 		{
-            auto mainEntityRect = entity.getBoundRect();
+            auto mainEntityRect = entity->getBoundRect();
             auto otherEntityRect = el->getBoundRect();
 			if (mainEntityRect.intersects(otherEntityRect))
 			{
-                entity.onCollide(*el);
+                entity->onCollide(el);
                 el->onCollide(entity);
                 return true;
 			}
@@ -184,15 +155,17 @@ bool Game::isCollide(Entity& entity, constants::Layer layer = constants::Layer::
     return false;
 }
 
-std::vector<Entity*> Game::getEntitiesByName(std::string name)
+std::vector<Entity*> Game::getEntitiesByName(const std::string& name)
 {
     std::vector<Entity*> result;
     for (auto entity : _entities)
     {
-	    if (entity->getName() == name)
-	    {
+        if (entity == nullptr) { continue; }
+    	
+	    if (entity->name() == name)
+        {
             result.push_back(entity);
-	    }
+        }
     }
     return result;
 }
@@ -207,7 +180,7 @@ void Game::restart()
 
 	_ball->setPosition(deckPosition + sf::Vector2f(0, -55));
 	auto direction = sf::Vector2f(1, -1);
-	normilize(direction);
+	utils::normalize(direction);
 	_ball->set_direction(direction);
 
 	_currentState = State::Running;
