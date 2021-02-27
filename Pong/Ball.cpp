@@ -42,18 +42,32 @@ void Ball::update(float deltaTime)
 	auto* map = getGame()->getMap();
 	auto tmpRect = boundRect;
 	tmpRect.left = nextX;
+
+	bool hit = false;
+
 	if (map->is_collide_block(tmpRect))
 	{
+		hit = true;
 		_direction.x = -_direction.x;
 		map->collide_block(tmpRect);
 		tmpRect.left = position.x;
 	}
 
 	tmpRect.top = nextY;
-	if (map->is_collide_block(tmpRect))
+	if (!hit && map->is_collide_block(tmpRect))
 	{
+		hit = true;
 		_direction.y = -_direction.y;
 		map->collide_block(tmpRect);
+	}
+
+	if (hit)
+	{
+		auto manager = getGame()->getResourceManager();
+		auto soundBuffer = manager.getSound("resources/sounds/hit_block.wav");
+		sf::Sound* sound = new sf::Sound();
+		sound->setBuffer(*soundBuffer.get());
+		sound->play();
 	}
 
 	utils::normalize(_direction);
