@@ -17,7 +17,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapRenderer.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -30,6 +29,7 @@
       <Filter>Animation</Filter>
     </ClCompile>
     <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.hpp">

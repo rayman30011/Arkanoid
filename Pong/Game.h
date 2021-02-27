@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "MapRenderer.h"
 #include "Constants.h"
+#include "ResourceManager.h"
 
 class Ball;
 class Player;
@@ -38,6 +39,8 @@ public:
 	std::vector<Entity*> getEntitiesByName(const std::string& name);
 
 	Map* getMap() { return _currentMap; }
+
+	ResourceManager const& getResourceManager() { return _resourceManager; }
 	
 private:
 	void restart();
@@ -62,6 +65,7 @@ private:
 	sf::Texture _bgTexture;
 	sf::Sprite _bgSprite;
 	sf::Shader _crtShader;
+	ResourceManager _resourceManager;
 
 	bool _isBallFollow;
 	int lives;

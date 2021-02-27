@@ -5,13 +5,11 @@ class Ball : public Entity {
 public:
 	Ball(Game* game): Entity(game)
 	{
-		_image->loadFromFile("resources/ball.png");
-		_image->createMaskFromColor(sf::Color::Green);
+		auto manager = game->getResourceManager();
+		auto texture = manager.getImage("resources/ball.png");
+		_sprite->setTexture(*texture.get());
 
-		_texture->loadFromImage(*_image);
-		_sprite->setTexture(*_texture);
-
-		auto size = _texture->getSize();
+		auto size = texture->getSize();
 		_boundRect.height = size.y;
 		_boundRect.width = size.x;
 		_speed = 150;

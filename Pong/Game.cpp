@@ -20,6 +20,8 @@ Game::Game(sf::Vector2u windowSize)
 
 void Game::init()
 {
+    _resourceManager.init();
+
 	_ball = new Ball(this);
 	_player = new Player(this);
     _entities.push_back(_player);
@@ -115,7 +117,6 @@ void Game::render(sf::RenderTarget& target)
     _bgSprite.setPosition(sf::Vector2f(_mapRect.left, _mapRect.top));
     target.draw(_bgSprite);
     _mapRenderer->render(target);
-	_ball->render(target);
 
     for (Entity* entity : _entities) {
         entity->render(target);

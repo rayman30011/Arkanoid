@@ -59,7 +59,6 @@ int Map::getIndex(sf::Vector2u position) {
 
 void Map::loadMap()
 {
-	//_blocks.clear();
 	std::ifstream file(_fileName);
 	if (file.is_open())
 	{
