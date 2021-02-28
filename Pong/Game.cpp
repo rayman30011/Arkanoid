@@ -45,9 +45,9 @@ void Game::init()
 	
     _scoreText.setFont(*_font);
     _scoreText.setString("Score " + std::to_string(_score));
-    _scoreText.setCharacterSize(18);
+    _scoreText.setCharacterSize(11);
     
-    _scoreText.setPosition({ 10, 10 });
+    _scoreText.setPosition({ 400, 400 });
     _scoreText.setFillColor(sf::Color::White);
 
     _currentMap->onBlockDestroy([this](BlockActionParams params) -> void
@@ -86,7 +86,6 @@ void Game::update(float time)
     {
 		_isBallFollow = false;
 	}
-
 	
     isCollide(_player, constants::Layer::Bonus);
 

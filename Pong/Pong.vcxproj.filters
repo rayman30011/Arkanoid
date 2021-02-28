@@ -30,6 +30,7 @@
     </ClCompile>
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Box.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.hpp">
@@ -72,6 +73,9 @@
       <Filter>Animation</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

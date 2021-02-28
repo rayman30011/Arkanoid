@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Box.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Bonus.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Ball.h" />
+    <ClInclude Include="Box.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="Bonus.h" />
